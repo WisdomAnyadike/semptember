@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+    <p id="paragraph"> hello </p>
+    <button onclick="dropDown()"> click </button>
+
+</body>
+
+</html>
+<script>
+    let myName = 'wisdom'
+    myName = 'david'
+    const theName = 'mayowa'
+
+    console.log(myName);
+    console.log(theName);
+
+
+    let paragraphTag = document.getElementById('paragraph')
+    console.log(paragraphTag);
+    paragraphTag.style.backgroundColor = 'yellow'
+    paragraphTag.style.position = 'fixed'
+    paragraphTag.style.top = 0
+    paragraphTag.style.width = '100%'
+    paragraphTag.style.display = 'none'
+
+    function dropDown() {
+        paragraphTag.style.display = 'block'
+    }
+
+    let bTag = document.createElement('b')
+    bTag.innerHTML = 'im a coming from your js'
+    paragraphTag.append(bTag)
+
+
+
+    const string = `hello world`
+    let string1 = 'hello world'
+    let string2 = "hello world"
+    let wStorage = string[6]
+    console.log(wStorage);
+    console.log(string.length);
+
+    // my name is asabeneh yetayeh , i am a javascript teacher.
+    let space = ' '           // an empty space string
+    let firstName = 'Asabeneh'
+    let lastName = 'Yetayeh'
+    let language = 'JavaScript'
+    let job = 'teacher'
+
+    let sentence = 'My name is ' + firstName + space + lastName + ' , ' + 'i am a ' + language + space + job + '.'
+    let thirdName = 'muiz'
+
+    let sentence1 = `My name is ${thirdName}`
+    console.log(sentence1);
+
+    console.log(sentence);
+
+    let a = 5
+    let b = 10
+
+    let newSentence = 'the sum of ' + a + ' and ' + b + ' is ' + (a + b)
+    console.log(newSentence);
+
+    let value = +'4' + 9
+    console.log(value);
+
+
+    let myString = 'Hello'
+    let capitalString = myString.toUpperCase()
+    let lowerCaseString = myString.toLowerCase()
+    console.log(lowerCaseString);
+    console.log(myString);
+
+    let newString = 'JavaScript knowledge is the best , i love JavaScript'
+    console.log(newString, newString.length);
+    let knowledge = newString.substr(11, 10)
+    let script = newString.substring(4, 10)
+    console.log(newString);
+    console.log(script);
+
+    let val = newString.split(' + ')
+    console.log(val);
+    let noSpace = newString.trim()
+    console.log(noSpace, noSpace.length);
+
+
+    let arr = [4, 'gsdjh', true, undefined, null, [], {}]
+
+    console.log(newString.includes('Jak'));
+
+    newString = newString.replaceAll('JavaScript', 'Python')
+    console.log(newString);
+
+    //quick classwork
+    let value1 = 'dan iel' //DANIEL
+
+    // console.log('a'.charCodeAt(0));
+    // console.log('b'.charCodeAt(0));
+    // console.log('c'.charCodeAt(0));
+    // console.log('d'.charCodeAt(0));
+    // console.log('e'.charCodeAt(0));
+    // console.log('f'.charCodeAt(0));
+
+    // console.log('A'.charCodeAt(0));
+    // console.log('B'.charCodeAt(0));
+    // console.log('C'.charCodeAt(0));
+    // console.log('D'.charCodeAt(0));
+    // console.log('E'.charCodeAt(0));
+    // console.log('F'.charCodeAt(0));
+
+    let first = 'hello,'
+    let second = 'i'
+    let third = 'am danny'
+
+    let myNewSentence = first.concat(second, ' ', third)
+    let otherSentence = second.concat(' ', third, ' ,', first.replace(',', '.'))
+    console.log(otherSentence);
+
+</script>
