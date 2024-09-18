@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Days of the month</h1>
+    <input type="text" id="month" placeholder="Enter a month">
+    <button onclick="checkMonth()">check</button>
+    <div id="result"></div>
+</body>
+
+</html>
+<script>
+
+    let monthOfTheYear = document.getElementById('month');
+
+
+
+
+    function checkMonth() {
+        let key = monthOfTheYear.value.toLowerCase()
+        switch (key) {
+            case 'january':
+            case 'march':
+            case 'may':
+            case 'july':
+            case 'august':
+            case 'october':
+            case 'december':
+               result.innerHTML =  `<p> ${key} has 31 days </p>`
+                break;
+
+            case 'february':
+                 result.innerHTML = `<p> ${key} has 28 days and 29 days in the leap year </p>`
+                break;
+
+            case 'april':
+            case 'june':
+            case 'september':
+            case 'november':
+              result.innerHTML =  `<p> ${key} has 30 days </p>`
+
+                break;
+
+            default:
+            result.innerHTML =  `<p>  ${key} is not a valid month of the year, try again! </p>`
+            break;
+        }
+    }
+
+
+</script>

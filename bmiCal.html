@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="number" id="weight" placeholder="input weight">
+    <input type="number" id="height" placeholder="input height"> <button onclick="displayBMI()"> Compute BMI </button>
+    <div id="display">
+
+    </div>
+</body>
+</html>
+<script>
+    //Grab weight and height inputs
+    let weightInput = document.querySelector("#weight");
+    let heightInput = document.querySelector("#height");
+
+    function BMI(weight, height){
+        return weight / (height ** 2)
+    }
+
+    function displayBMI(){
+        display.innerHTML = ''
+        let weightValue = weightInput.value;
+        let heightValue = heightInput.value;
+
+        //Validation
+        if (weightValue.trim() == "" || heightValue.trim() == ""){
+            alert('weight and height fields must be filled')
+            return
+        }
+        if (weightValue < 0 || heightValue < 0){
+            alert("weight and height cannot be negative")
+            return;
+        }
+        let BMIValue = BMI(weightValue, heightValue);
+        if (BMIValue < 18.5){
+            display.innerHTML = `<p> Your BMI is <b>${BMIValue}</b></p> <p>You are underweight</p>`
+        }else if (BMIValue >= 18.5 && BMIValue <= 24.9){
+            display.innerHTML = `<p> Your BMI is <b>${BMIValue}</b></p> <p>You are in good shape</p>`
+        }else if (BMIValue > 24.9 && BMIValue <= 29.9){
+            display.innerHTML = `<p> Your BMI is <b>${BMIValue}</b></p> <p>You are overweight</p>`
+        }else{
+            display.innerHTML = `<p> Your BMI is <b>${BMIValue}</b></p> <p>Hit the gym! You are obese</p>`
+        }
+    }
+</script>

@@ -15,6 +15,9 @@
 
     </div>
 
+    <input id="nameInput" type="text"> <button onclick="tellUserHi()"> click me</button>
+
+
 </body>
 
 </html>
@@ -81,15 +84,84 @@
         return 67
     }()
 
-      console.log(  (function hello(params) {
-            return 'hello'
-        }()));
+    console.log((function hello(params) {
+        return 'hello'
+    }()));
 
 
 
     console.log(giveUs67);
 
+    function sayHello(parameter) {
+        console.log(`Hello ${parameter}`);
+    }
 
+    sayHello('yooo')
+    sayHello('tolu')
+    sayHello('david')
+
+    function addNumbers(num1, num2, num3 = 4) {
+        console.log(num1 + num2 + num3);
+    }
+
+    addNumbers(7, 5, 3)
+    addNumbers(700, 556278, 56)
+
+    let nameInput = document.getElementById('nameInput')
+    function tellUserHi() {
+        if (nameInput.value.trim() === '') {
+            alert('input a valid name')
+        } else {
+            let hiUserName = takeInValue(nameInput.value)
+            alert(hiUserName)
+        }
+
+    }
+
+    function takeInValue(params) {
+        return `hi ${params}`
+    }
+
+
+
+    // Temperature in oC can be converted to oF using this formula: oF = (oC x 9/5) + 32. Write a function which convert oC to oF convertCelsiusToFahrenheit.
+
+    function convertCelsiusToFahrenheit(params) {
+        let oF = (params * (9 / 5)) + 32
+        console.log(oF);
+    }
+
+    convertCelsiusToFahrenheit(90)
+    convertCelsiusToFahrenheit(120)
+    convertCelsiusToFahrenheit(33)
+
+
+    function eat(food) {
+        return function isEating() {
+            return `i am eating ${food}`
+        }
+
+    }
+
+    console.log(eat('beans')());
+
+    let me 
+    function hey() {
+        let a = '1'
+        console.log(a);
+        return function hey1() {
+            let b = '2'
+            me = b
+            console.log(a, b);
+            return function hey2() {
+                let c = '3'
+                console.log(a, b, c);
+            }
+        }
+
+    }
+
+    hey()()()
 
 
 

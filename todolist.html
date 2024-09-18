@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <input id="hello" type="text"> <button onclick="addTodo()"> add todo</button>
+    <div id="preview">
+
+    </div>
+
+
+</body>
+
+</html>
+<script>
+    let dataBase = []
+    let inputTag = document.querySelector('#hello')
+    let div = document.querySelector('#preview')
+    function addTodo() {
+        // div.innerHTML += `<p> ${inputTag.value} <button onclick="deleteTodo()"> x </button> <br/> </p>`
+        if (inputTag.value.trim() === '') {
+            alert('field is mandatory')
+            return
+        } else {
+            dataBase.push(inputTag.value)
+            div.innerHTML = ''
+            for (let index = 0; index < dataBase.length; index++) {
+                div.innerHTML += `<p>${dataBase[index]} <button onclick="deleteTodo(${index})"> x </button> </p>`
+            }
+        }
+
+
+    }
+
+    // dataBase.push('hello')
+    // let newArr = ['hdj', 'shg']
+    // newArr.shift()
+    // newArr.unshift('hello')
+    // console.log(newArr);
+
+
+    function deleteTodo(i) {
+        // let pTags = document.querySelectorAll('p')
+        // for (let index = 0; index < pTags.length; index++) {
+        //     pTags[index].innerHTML
+
+        // }
+        console.log(i);
+        dataBase.splice(i, 1)
+        div.innerHTML = ''
+        for (let index = 0; index < dataBase.length; index++) {
+            div.innerHTML += `<p>${dataBase[index]} <button onclick="deleteTodo(${index})"> x </button> </p>`
+        }
+        console.log(dataBase);
+    }
+
+
+
+
+</script>

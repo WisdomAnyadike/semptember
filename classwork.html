@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+
+
+
+    function checkDataType(params) {
+        if (params.length <= 1) {
+            return 'no value to compare'
+        }
+        let firstType = typeof params[0]
+        let ans = true
+
+        for (let index = 0; index < params.length; index++) {
+            if (firstType !== typeof params[index]) {
+                ans = false
+                break
+            }
+
+        }
+
+        return ans
+    }
+
+    console.log(checkDataType([2, 4, 5, 6, '89']));
+    console.log(checkDataType([2]));
+    console.log(checkDataType([]));
+    console.log(checkDataType(['5', '6', '89']));
+
+
+
+
+
+</script>
