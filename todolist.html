@@ -27,13 +27,11 @@
         if (inputTag.value.trim() === '') {
             alert('field is mandatory')
             return
-        } else {
-            dataBase.push(inputTag.value)
-            div.innerHTML = ''
-            for (let index = 0; index < dataBase.length; index++) {
-                div.innerHTML += `<p>${dataBase[index]} <button onclick="deleteTodo(${index})"> x </button> </p>`
-            }
         }
+
+        dataBase.push(inputTag.value)
+        display()
+
 
 
     }
@@ -45,19 +43,30 @@
     // console.log(newArr);
 
 
-    function deleteTodo(i) {
-        // let pTags = document.querySelectorAll('p')
-        // for (let index = 0; index < pTags.length; index++) {
-        //     pTags[index].innerHTML
+    function deleteTodo(int) {
+        dataBase.splice(int, 1)
+        display()
+    }
 
-        // }
-        console.log(i);
-        dataBase.splice(i, 1)
+    //this function helps us display all the todo's
+    function display() {
         div.innerHTML = ''
         for (let index = 0; index < dataBase.length; index++) {
-            div.innerHTML += `<p>${dataBase[index]} <button onclick="deleteTodo(${index})"> x </button> </p>`
+            div.innerHTML += `<p>${dataBase[index]} <button onclick="deleteTodo(${index})"> x </button> <button onclick="editTodo(${index})"> edit </button> </p>`
         }
-        console.log(dataBase);
+    }
+
+    function editTodo(int) {
+        let ourPrompt = prompt('Edit todo', dataBase[int])
+        if (!ourPrompt?.trim()) {
+            alert('edit field is mandatory')
+        } else if (ourPrompt === dataBase[int]) {
+            alert('try editing the value')
+        } else {
+            dataBase.splice(int, 1, ourPrompt)
+            display()
+            console.log(dataBase);
+        }
     }
 
 

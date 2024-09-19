@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    let Pi = Math.PI
+    console.log(Pi);
+
+    console.log(Math.round(4.4999));
+    let value = Math.min(-5, 3, 20, 4, 5, 10)
+    let otherVal = Math.max(-5, 3, 20, 4, 5, 10)
+    console.log(value);
+    console.log(otherVal);
+
+    let random = Math.floor(Math.random() * 11)
+    console.log(random);
+
+
+
+    let runn = (params) => {
+
+    }
+    //forEach Map some Every find findIndex filter reduce
+    let arr1 = [5 ,1, 2, 3, 4, '6']
+    console.log(arr1.forEach(function (num, i, arr) {
+        return num + i
+    }));
+
+    let newArray = arr1.map(function (num, i, arr) {
+        return num * i
+    })
+    console.log(newArray);
+
+
+    let someArrFunc = arr1.some(function (num, i, arr) {
+        return typeof num === 'string'
+    })
+
+    console.log(someArrFunc);
+    let areTheyAllStrings = arr1.every(function (num, i, arr) {
+        return typeof num === 'string'
+    })
+
+    let findNum5 = arr1.find(function (num, i, arr) {
+        return num === 5
+    })
+
+    let findIndexOfNum5 = arr1.findIndex(function (num, i, arr) {
+        return num === 5
+    })
+
+    console.log(findNum5);
+    console.log(findIndexOfNum5);
+
+
+</script>
