@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="div">
+        <span id="input1"> </span>
+        <span id="symbol"> </span>
+        <span id="input2"> </span>
+    </div>
+
+    <div id="output"> </div>
+
+    <div>
+        <button onclick="addVal(0)"> 0 </button>
+        <button onclick="addVal(1)"> 1 </button>
+        <button onclick="addVal(2)"> 2 </button>
+        <button onclick="addVal(3)"> 3 </button>
+        <button onclick="calculate()"> = </button>
+        <button onclick="addSym('+')"> + </button>
+        <button onclick="addSym('-')"> - </button>
+        <button onclick="addSym('/')"> / </button>
+        <button onclick="addSym('*')"> * </button>
+
+
+
+
+    </div>
+
+</body>
+
+</html>
+<script>
+    function addVal(num) {
+        if (symbol.innerText.trim()) {
+            input2.innerText += num
+            return
+        }
+
+        input1.innerText += num
+    }
+
+    function addSym(sym) {
+        if (sym === symbol.innerText.trim()) {
+            calculate()
+            return
+        }
+        
+        symbol.innerText = sym
+
+    }
+
+    function calculate() {
+        if (input2.innerText.trim() === '') {
+            alert('enter second value before we can evaluate')
+            return
+        }
+
+
+        let answer
+        if (symbol.innerText.trim() === "+") {
+            answer = (+input1.innerText) + (+input2.innerText)
+            display(answer)
+        } else if (symbol.innerText.trim() === "-") {
+            answer = (+input1.innerText) - (+input2.innerText)
+            display(answer)
+        } else if (symbol.innerText.trim() === "/") {
+            answer = (+input1.innerText) / (+input2.innerText)
+            display(answer)
+        } else {
+            answer = (+input1.innerText) * (+input2.innerText)
+            display(answer)
+        }
+
+    }
+
+    function display(ans) {
+        input1.innerText = ans
+        symbol.innerText = ''
+        input2.innerText = ''
+    }
+
+
+</script>
