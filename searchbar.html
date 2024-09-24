@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <select onchange="checkVal()" name="" id="names">
+        <option value=""> choose </option>
+        <option value="david"> david </option>
+        <option value="daniel"> daniel </option>
+        <option value="danle"> danle </option>
+    </select> -->
+
+    <input id="input1" placeholder="search here" oninput="run()" type="text">
+    <div id="preview">
+
+    </div>
+
+</body>
+
+</html>
+<script>
+    //onchange
+
+    // function checkVal() {
+    //     console.log(names.value);
+    // } 
+
+    let arr = ['nike', 'adidas', 'balenciaga', 'crocs']
+
+    arr.forEach(element => {
+        console.log(element);
+        preview.innerHTML += `<p> ${element}  </p>`
+    });
+
+
+
+
+
+
+
+    function run() {
+        let inputValue = input1.value.toLowerCase()
+
+        let filteredArr = arr.filter(function (shoe, i) {
+            return shoe.includes(inputValue)
+        })
+
+        if (filteredArr.length === 0) {
+            preview.innerHTML = 'product does not exist'
+        } else {
+            preview.innerHTML = ''
+            filteredArr.forEach(element => {
+                console.log(element);
+                preview.innerHTML += `<p> ${element}  </p>`
+            });
+        }
+
+
+    }
+
+
+    console.log('nike'.includes(''));
+    console.log('nike'.split(''));
+
+    let object1 = new Object()
+    object1 = {
+        name: 'wisdom',
+        class: 'js2',
+        age: 13,
+        isEating: false,
+        skills: ['html', 'css', 'node'],
+        isMarried: undefined,
+        eat: function () {
+            // this.isEating = !this.isEating
+            return 'i am eating'
+        }
+    }
+
+    console.log(object1.name);
+    console.log(object1['name']);
+    console.log(object1.eat());
+    console.log(object1.isEating);
+
+    object1.age = 14
+    console.log(object1.age);
+    object1.eat = function () {
+        return 'i want to eat'
+    }
+
+    console.log(object1.eat());
+
+    for (const key in object1) {
+       console.log( `${key} : ${object1[key]}`);
+    }
+</script>

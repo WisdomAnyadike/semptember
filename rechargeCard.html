@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <select name="" id="">
+        <option value=""> CHOOSE PROVIDER</option>
+        <option value="MTN"> MTN</option>
+        <option value="GLO"> GLO </option>
+        <option value="9MOBILE">9MOBILE </option>
+        <option value="AIRTEL">AIRTEL</option>
+    </select>
+
+    <select name="" id="">
+        <option value=""> CHOOSE AMOUNT</option>
+        <option value="100">100</option>
+        <option value="200">200</option>
+        <option value="500">500</option>
+        <option value="1000">1000</option>
+    </select>
+
+
+    <button onclick="generate()"> generate pin </button>
+    <p id="pin"> </p>
+
+
+    <input type="text" placeholder="*311*...#"> <button onclick="load()"> load rechargecard</button>
+
+
+</body>
+
+</html>
+<script>
+    function generate() {
+        let pin = ''
+        for (let index = 0; index < 12; index++) {
+            let random = Math.floor(Math.random() * 10)
+            pin = pin + random
+        }
+
+        console.log(pin);
+    }
+
+
+    generate()
+
+
+</script>
