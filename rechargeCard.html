@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <select name="" id="">
+    <select name="" id="Provider">
         <option value=""> CHOOSE PROVIDER</option>
         <option value="MTN"> MTN</option>
         <option value="GLO"> GLO </option>
@@ -16,7 +16,7 @@
         <option value="AIRTEL">AIRTEL</option>
     </select>
 
-    <select name="" id="">
+    <select name="" id="Amount">
         <option value=""> CHOOSE AMOUNT</option>
         <option value="100">100</option>
         <option value="200">200</option>
@@ -36,18 +36,60 @@
 
 </html>
 <script>
+    let arr = []
+
+
     function generate() {
+        let serviceProvider = document.getElementById('Provider').value;
+        let amount = document.getElementById('Amount').value
+        if( amount === '' || serviceProvider === ''){
+            alert('Please enter a value')
+            return 
+        }
+        
+
         let pin = ''
         for (let index = 0; index < 12; index++) {
             let random = Math.floor(Math.random() * 10)
             pin = pin + random
         }
+        document.getElementById('pin').innerHTML = pin
+
+        let cardObject = {provider: serviceProvider,
+        card:pin, amount, isUsed:false}
+            arr.push(cardObject) 
+            console.log(arr);
+console.log(cardObject);
 
         console.log(pin);
     }
 
+function load() {
+   let input = document.querySelector('input')
+   let pinLoaded = input.value.slice(5, 17)
+   console.log(pinLoaded);
+    let foundCard= arr.find((obj)=> {
+        return obj.card === pinLoaded
+    })
 
-    generate()
+    console.log(foundCard);
+    if(input.value.trim()===''){
+        alert('generate a pin')
+    }else if(!foundCard){
+        alert('card not found')
+    }else if (foundCard.isUsed === true) {
+        alert('this pin has been used')
+    }
+    else if(foundCard && input.value.startsWith('*311*') && input.value.length == 18 && input.value.endsWith('#')){
+        foundCard.isUsed = true
+        alert(`you have recharged ${foundCard.provider} of ${foundCard.amount} successfully`)
+    }else{
+        alert('invalid format')
+    }
+   console.log(pinLoaded);
+}
+
+    
 
 
 </script>

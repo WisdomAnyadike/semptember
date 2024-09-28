@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student ID Display</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
+    <link rel="shortcut icon" href="images/sqi.webp" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #000e42;
+            color: #000e42;
+            font-family: "Poppins", sans-serif;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .logo-wrapper img {
+            width: 80px;
+        }
+
+        .profile-picture-wrapper img {
+            border: 3px solid #000e42;
+            border-radius: 50%;
+            height: 100px;
+            width: 100px;
+        }
+
+        .profile {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .body-wrapper {
+            align-items: center;
+            background-color: white;
+            border: 2px solid lightblue;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.2),
+                0 6px 20px rgba(255, 255, 255, 0.19);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: fit-content;
+            justify-content: center;
+            margin: 100px auto;
+            padding: 5px 0;
+            width: 250px;
+        }
+
+        .course {
+            color: orangered;
+            font-size: 14px;
+        }
+
+        .name-wrapper,
+        .profile-name,
+        .course {
+            font-weight: 700;
+        }
+
+        .name-wrapper {
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .role-wrapper,
+        .site-url {
+            background-color: #000e42;
+            color: rgb(0, 221, 255);
+            text-align: center;
+        }
+
+        .role-wrapper {
+            padding: 2px 20px;
+        }
+
+        .site-url {
+            font-size: 12px;
+            letter-spacing: 8px;
+            width: 100%;
+        }
+
+        .id {
+            align-items: center;
+            color: black;
+            display: flex;
+            gap: 10px;
+        }
+
+        .empty-div {
+            border-right: 2px solid black;
+            height: 20px;
+        }
+
+        .body-con {
+            align-items: center;
+            display: flex;
+            gap: 20px;
+            width: fit-content;
+            margin: auto;
+        }
+
+        button {
+            align-items: center;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="body-con">
+        <button id="btn" onclick="prev()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" id="arrow" viewBox="0 -960 960 960" width="24px"
+                fill="grey">
+                <path d="M400-80 0-480l400-400 71 71-329 329 329 329-71 71Z" />
+            </svg>
+        </button>
+        <div class="body-wrapper">
+
+        </div>
+        <button id="btn1" onclick="next()">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" id="arrow1" viewBox="0 -960 960 960" width="24px"
+                fill="grey">
+                <path d="m321-80-71-71 329-329-329-329 71-71 400 400L321-80Z" />
+            </svg>
+        </button>
+    </div>
+
+</body>
+
+</html>
+<script>
+
+    const idArray = [
+        {
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmCy16nhIbV3pI1qLYHMJKwbH2458oiC9EmA&s",
+            name: "Miles Gonzalo Morales",
+            course: "Full-Stack Web Development",
+            ID: "240280",
+        },
+        {
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2dVbLMzlaeJnL5C6RpZ8HLRECJhH6ILEGKg&s",
+            name: "Gwendolyne Maxine Stacy",
+            course: "Data Science",
+            ID: "290340",
+        },
+        {
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPEK6dYPA91PjpBkelCTcyNjk-3jGCMZsOyQ&s",
+            name: "Miguel O'Hara",
+            course: "Cybersecurity",
+            ID: "240300",
+        },
+        {
+            img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqGK3diR3Zi-mnOXEaj-3ewmFyRYVxGzVzZw&s",
+            name: "Peter Benjamin Porker",
+            course: "UI/UX",
+            ID: "250300",
+        }
+    ];
+
+    let index = 0
+
+
+    // idArray[0].course
+
+    // let arr = [1, 2, 3, 4]
+    // let newArrVal = arr[2]
+
+    // let obj = {
+    //     name: 'yo',
+    //     class: 'js3'
+    // }
+
+
+    // let arr2 = [{ name: ['tolu', { class: 'ss1' }] }]
+    // console.log(arr2[0].name[1].class);
+
+
+
+    // obj.class
+
+    const divForId = document.querySelector('.body-wrapper')
+    function displayDiv() {
+        divForId.innerHTML = ` <div class="profile">
+                <div class="logo-wrapper">
+                    <img src="images/sqi.webp" alt="" />
+                </div>
+                <div class="name-wrapper"><span>SQI COLLEGE OF ICT IBADAN</span></div>
+                <div class="role-wrapper">STUDENT</div>
+                <div class="profile-picture-wrapper">
+                    <img id="image" src="${idArray[index].img}" alt="" />
+                </div>
+                <div class="profile-name">
+                    <span id="name"> ${idArray[index].name}</span>
+                </div>
+                <div class="course" id="course"> ${idArray[index].course}</div>
+            </div>
+            <div class="id">
+                <div><span>Student ID</span></div>
+                <div class="empty-div"></div>
+                <div><span id="ID"> ${idArray[index].ID}</span></div>
+            </div>
+            <div class="site-url"><span>edu.sqi.ng</span></div>`
+    }
+
+    displayDiv()
+
+    function next() {
+        if (index === 3) {
+            index = 0
+
+        } else {
+            index++
+
+        }
+        displayDiv()
+    }
+
+    function prev() {
+        if (index === 0){
+            index = idArray.length - 1
+        }else{
+            index--
+        }
+        displayDiv()
+    }
+    
+</script>
