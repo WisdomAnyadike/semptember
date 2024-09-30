@@ -5,6 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        table,
+        tr,
+        th,
+        thead,
+        tbody,
+        td {
+            margin-top: 20px;
+            border-collapse: collapse;
+            padding: 10px;
+            border: 1px solid red;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -32,21 +49,38 @@
     <input type="text" placeholder="*311*...#"> <button onclick="load()"> load rechargecard</button>
 
 
+
+    <div class="buttons"> <button> All Cards </button> <button> Used Cards </button> <button> Unused Cards </button>
+    </div>
+    <table>
+        <thead>
+            <th> s/n </th>
+            <th> provider </th>
+            <th> amount </th>
+            <th> pin </th>
+            <th> isUsed </th>
+        </thead>
+        <tbody id="table">
+
+        </tbody>
+    </table>
+
+
 </body>
 
 </html>
 <script>
-    let arr = []
+    let arr = JSON.parse(localStorage.getItem('cardDatabase')) || []
 
 
     function generate() {
         let serviceProvider = document.getElementById('Provider').value;
         let amount = document.getElementById('Amount').value
-        if( amount === '' || serviceProvider === ''){
+        if (amount === '' || serviceProvider === '') {
             alert('Please enter a value')
-            return 
+            return
         }
-        
+
 
         let pin = ''
         for (let index = 0; index < 12; index++) {
@@ -55,41 +89,67 @@
         }
         document.getElementById('pin').innerHTML = pin
 
-        let cardObject = {provider: serviceProvider,
-        card:pin, amount, isUsed:false}
-            arr.push(cardObject) 
-            console.log(arr);
-console.log(cardObject);
+        let cardObject = {
+            provider: serviceProvider,
+            card: pin, amount, isUsed: false
+        }
+        arr.push(cardObject)
+        saveAndDisplay()
+        console.log(arr);
+        console.log(cardObject);
 
         console.log(pin);
     }
 
-function load() {
-   let input = document.querySelector('input')
-   let pinLoaded = input.value.slice(5, 17)
-   console.log(pinLoaded);
-    let foundCard= arr.find((obj)=> {
-        return obj.card === pinLoaded
-    })
+    function load() {
+        let input = document.querySelector('input')
+        let pinLoaded = input.value.slice(5, 17)
+        console.log(pinLoaded);
+        let foundCard = arr.find((obj) => {
+            return obj.card === pinLoaded
+        })
 
-    console.log(foundCard);
-    if(input.value.trim()===''){
-        alert('generate a pin')
-    }else if(!foundCard){
-        alert('card not found')
-    }else if (foundCard.isUsed === true) {
-        alert('this pin has been used')
+        console.log(foundCard);
+        if (input.value.trim() === '') {
+            alert('generate a pin')
+        } else if (!foundCard) {
+            alert('card not found')
+        } else if (foundCard.isUsed === true) {
+            alert('this pin has been used')
+        }
+        else if (foundCard && input.value.startsWith('*311*') && input.value.length == 18 && input.value.endsWith('#')) {
+            foundCard.isUsed = true
+            saveAndDisplay()
+            alert(`you have recharged ${foundCard.provider} of ${foundCard.amount} successfully`)
+        } else {
+            alert('invalid format')
+        }
+        console.log(pinLoaded);
     }
-    else if(foundCard && input.value.startsWith('*311*') && input.value.length == 18 && input.value.endsWith('#')){
-        foundCard.isUsed = true
-        alert(`you have recharged ${foundCard.provider} of ${foundCard.amount} successfully`)
-    }else{
-        alert('invalid format')
+
+
+    function display(params) {
+        table.innerHTML = ''
+        arr.forEach((cardObj, i) => {
+            table.innerHTML += ` 
+            <tr>
+                <td> ${i + 1} </td>
+                <td> ${cardObj.provider} </td>
+                <td> ${cardObj.amount} </td>
+                <td> ${cardObj.card} </td>
+                <td> ${cardObj.isUsed} </td>
+
+            </tr>
+
+       `
+
+        })
     }
-   console.log(pinLoaded);
-}
 
-    
+    display()
 
-
+    function saveAndDisplay(params) {
+        localStorage.setItem('cardDatabase', JSON.stringify(arr))
+        display()
+    }
 </script>

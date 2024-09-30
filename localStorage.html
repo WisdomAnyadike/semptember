@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+</body>
+
+</html>
+<script>
+    localStorage.setItem('Name', 'wisdom')
+    localStorage.setItem('myNum', "08164934974")
+
+    localStorage.setItem('myObj', JSON.stringify({ name: 'wo', class: "tech" }))
+
+ 
+
+
+    localStorage.removeItem('myObj')
+
+    let thisObj = JSON.parse(localStorage.getItem('myObj'))
+    console.log(thisObj);
+    // localStorage.clear()
+
+
+
+</script>
