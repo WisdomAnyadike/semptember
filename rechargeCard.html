@@ -48,9 +48,10 @@
 
     <input type="text" placeholder="*311*...#"> <button onclick="load()"> load rechargecard</button>
 
+    <p> airtime balance: <span id="bal"> </span></p>
 
-
-    <div class="buttons"> <button> All Cards </button> <button> Used Cards </button> <button> Unused Cards </button>
+    <div class="buttons"> <button onclick="displayAllCards()"> All Cards </button> <button onclick="displayUsedCards()">
+            Used Cards </button> <button onclick="displayUnUsedCards()"> Unused Cards </button>
     </div>
     <table>
         <thead>
@@ -66,12 +67,16 @@
     </table>
 
 
+
 </body>
 
 </html>
 <script>
     let arr = JSON.parse(localStorage.getItem('cardDatabase')) || []
+    let airtimeBal = Number(localStorage.getItem('num')) || 0.00
 
+
+    bal.innerHTML = airtimeBal
 
     function generate() {
         let serviceProvider = document.getElementById('Provider').value;
@@ -94,7 +99,7 @@
             card: pin, amount, isUsed: false
         }
         arr.push(cardObject)
-        saveAndDisplay()
+        saveAndDisplay(arr)
         console.log(arr);
         console.log(cardObject);
 
@@ -119,8 +124,9 @@
         }
         else if (foundCard && input.value.startsWith('*311*') && input.value.length == 18 && input.value.endsWith('#')) {
             foundCard.isUsed = true
-            saveAndDisplay()
+            saveAndDisplay(arr)
             alert(`you have recharged ${foundCard.provider} of ${foundCard.amount} successfully`)
+            displayBal(foundCard.amount)
         } else {
             alert('invalid format')
         }
@@ -130,7 +136,7 @@
 
     function display(params) {
         table.innerHTML = ''
-        arr.forEach((cardObj, i) => {
+        params.forEach((cardObj, i) => {
             table.innerHTML += ` 
             <tr>
                 <td> ${i + 1} </td>
@@ -146,10 +152,30 @@
         })
     }
 
-    display()
+    display(arr)
 
     function saveAndDisplay(params) {
         localStorage.setItem('cardDatabase', JSON.stringify(arr))
-        display()
+        display(params)
+    }
+
+    function displayAllCards() {
+        display(arr)
+    }
+
+    function displayUsedCards() {
+        let filteredArr = arr.filter((cardObj) => cardObj.isUsed === true)
+        display(filteredArr)
+    }
+
+    function displayUnUsedCards() {
+        let filteredArr = arr.filter((cardObj) => cardObj.isUsed === false)
+        display(filteredArr)
+    }
+
+    function displayBal(amount) {
+        airtimeBal += Number(amount)
+        localStorage.setItem('num', Number(airtimeBal))
+        bal.innerHTML = airtimeBal
     }
 </script>
