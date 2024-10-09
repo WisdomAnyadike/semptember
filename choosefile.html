@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="file" multiple accept=".jpg,.png" onchange="pickPicture(event)">
+    <img id="myImg" alt="">
+</body>
+
+</html>
+<script>
+    let arr = []
+    function pickPicture(e) {
+        console.log(e);
+        let file = e.target.files
+        console.log(file);
+
+
+        for (let index = 0; index < file.length; index++) {
+            let reader = new FileReader()
+
+            if (file[index]) {
+                reader.readAsDataURL(file[index])
+            }
+
+            reader.addEventListener('load', (e) => {
+                console.log(e);
+                // myImg.src = e.target.result
+                // myImg.style.width = '100px'
+                // myImg.style.height = '100px'
+                arr.push(e.target.result)
+                console.log(arr);
+            })
+
+        }
+
+
+
+    }
+
+    let date = new Date()
+    console.log(date);
+    let wordToRemove = date.toLocaleTimeString().slice(5, 8)
+    console.log(date.toLocaleTimeString().replace(wordToRemove, ''));
+    console.log(date.getFullYear());
+    console.log(date.getMonth());
+    console.log(date.getTime());
+
+    function convertDate(params) {
+        let obj = { 1: 'january', 2: "february" }
+
+        let year = params.getFullYear()
+        let day = params.getDate()
+        let month = params.getMonth() + 1
+
+        return `${obj[month]} // ${day} // ${year}`
+    }
+
+    console.log(convertDate(new Date('wed jan 08 2022 11:43:02 GMT+0100 (West Africa Standard Time)')));
+
+
+    let object = { name: 'wiz', class: "js" }
+    for (const k in object) {
+        console.log(object[k]);
+    }
+
+    let thisObj = [
+        { name: 29 },
+        { name: 100 },
+        { name: 342 },
+        { name: 8922 },
+        { name: 32 },
+        { name: 1 }
+    ]
+
+    // [-1, 0, 1]
+    let newObj = thisObj.sort((a, b) => {
+        if (a.name < b.name) {
+            return -1
+        } else if (a.name > b.name) {
+            return 1
+        } else {
+            return 0
+        }
+    })
+    console.log(newObj);
+
+
+</script>

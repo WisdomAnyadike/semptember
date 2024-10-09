@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table,
+        th,
+        td,
+        thead,
+        tr,
+        tbody {
+            border-collapse: collapse;
+            padding: 10px;
+            border: 1px solid green;
+        }
+    </style>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+
+    // fetch('https://dummyjson.com/users').then((res)=>res.json() ).then((data)=> console.log(data) ).catch((err)=> console.log(err))
+
+    async function fetchUsers() {
+        try {
+            let res = await fetch('https://dummyjson.com/users')
+            let data = await res.json()
+            let ourObj = data.users
+            console.log(ourObj);
+            localStorage.setItem('usersData', JSON.stringify(ourObj))
+            document.body.innerHTML = ''
+            document.body.innerHTML = `
+            <button id='name' onclick="sorting(event)"> sort by name </button> <button onclick="sorting(event)" id="age"> sort by age </button>
+            <table> 
+                <thead> 
+                    <th> s/n </th>
+                    <th> name </th>
+                    <th> address </th> 
+                    <th> company </th>
+                    <th> age </th>
+                    <th> eye color </th>
+                    
+                </thead>
+                <tbody id="tbody"> </tbody>
+                
+                </table>`
+            display(ourObj)
+
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    fetchUsers()
+
+
+    function sorting(e) {
+        let data = JSON.parse(localStorage.getItem('usersData'))
+        let newData
+        if (e.target.id === 'age') {
+            newData = data.sort((a, b) => {
+                if (a.age > b.age) {
+                    return 1
+                } else if (a.age < b.age) {
+                    return -1
+                } else {
+                    return 0
+                }
+            })
+        } else {
+            newData = data.sort((a, b) => {
+                if (a.firstName > b.firstName) {
+                    return 1
+                } else if (a.firstName < b.firstName) {
+                    return -1
+                } else {
+                    return 0
+                }
+            })
+        }
+
+
+        display(newData)
+
+    }
+
+
+    function display(data) {
+        tbody.innerHTML = ''
+        data.forEach((userObj, i) => {
+            tbody.innerHTML += ` <tr>
+                    <td>  ${i + 1}</td>
+                    <td>  ${userObj.firstName} ${userObj.lastName} </td>
+                    <td>  ${userObj.address.city}</td>
+                    <td>  ${userObj.company.department}</td>
+                    <td>  ${userObj.age}</td>
+                    <td>  ${userObj.eyeColor}</td>   
+                    <td> <button onclick="seeMore(${userObj.id})"> see more... </button> </td>   
+                              
+                    </tr>`
+        })
+    }
+
+    function seeMore(id) {
+        fetch(`https://dummyjson.com/users/${id}`)
+            .then(res => res.json())
+            .then((data) => {
+                console.log(data);
+                document.body.innerHTML = ''
+                document.body.innerHTML = `
+                <button onclick="fetchUsers()"> go back </button>
+                <p>${data.firstName} ${data.lastName} </p>
+                <p> ${data.address.address}</p>
+                <p>  ${data.company.department} ${data.company.name}</p>
+                `
+
+
+            }).catch((err) => console.log(err))
+    }
+</script>
