@@ -1,0 +1,18 @@
+{
+  "songs": [
+    {
+      "id": "3d7a",
+      "songName": "death bed",
+      "artist": "powfu",
+      "artworkUrl": "https://samplesongs.netlify.app/album-arts/death-bed.jpg",
+      "Url": "https://samplesongs.netlify.app/death%20bed.mp3"
+    }, 
+    {
+      "id": "4801",
+      "songName": "bad liar",
+      "artist": "imagine dragons",
+      "artworkUrl": "https://samplesongs.netlify.app/album-arts/bad-liar.jpg",
+      "Url": "https://samplesongs.netlify.app/bad%20liar.mp3"
+    }
+  ]
+}
