@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+
+    function Student(name, cader, teacher, isObedient, age) {
+        this.name = name,
+            this.cader = cader,
+            this.teacher = teacher,
+            this.isObedient = isObedient,
+            this.age = age,
+
+            this.teachersComment = function () {
+                return `${this.name} from ${this.cader} is ${this.isObedient ? 'an obedient student' : 'an unserious student'}`
+            }
+
+    }
+
+    Student.prototype.newTeachersComment = function () {
+        return `${this.name} with age ${this.age} and cader ${this.cader} is ${this.isObedient ? 'an obedient student' : 'an unserious student'}`
+    }
+
+
+
+    let peculiar = new Student('peculiar', 'jss2', 'mrs bolanle', false, 12)
+
+    peculiar.__proto__.sayHello = function () {
+        return `hello ${this.name}`
+    }
+
+
+    console.log(peculiar.newTeachersComment());
+
+    console.log(peculiar.sayHello());
+
+    let david = new Student('david', 'jss3', 'mrs tolu', false, 13)
+    console.log(david.sayHello());
+
+
+    let arr2 = new Array()
+    Array.prototype.customMap = function (arr, school) {
+        console.log(`heyyyyy ${name} , i like ${school}`);
+    }
+
+    arr2.customMap('dave', 'jss3')
+
+    let arr5 = ['dan']
+    arr5.customMap('dan', 'ss1')
+
+    class Person {
+
+
+        constructor(name, job, age, genotype) {
+            this.name = name,
+                this.job = job,
+                this.age = age,
+                this.genotype = genotype
+        }
+
+        //regular function that helps user grow
+        grow() {
+            this.age = ++this.age
+        }
+
+        //regular function but using the get method
+        get shout() {
+            return `yeeeeeee! , ${this.name}`
+        }
+
+        //set helps to edit a property in a class
+        set newJob(jobTitle) {
+            this.job = jobTitle
+        }
+
+
+    }
+
+
+    let me = new Person('wisdom', 'instuctor', 32, 'AA')
+    console.log(me);
+    me.grow()
+    console.log(me.age);
+    console.log(me.job);
+    me.newJob = 'cyber security analyst'
+    console.log(me.job);
+    console.log(me.shout);
+    console.log(me.name);
+    console.log(me.shout);
+
+
+    //comeback tommorrow - private & pubic , modifying method in a class , static
+
+
+    class BankUser {
+        constructor(name, bvn, phoneNumber) {
+            this.name = name,
+                this.accountNumber = null,
+                this.balance = 0,
+                this.bvn = bvn,
+                this.isVerified = false,
+                this.phoneNumber = phoneNumber
+        }
+
+        createAccountNo(num) {
+            if (num && num === this.phoneNumber) {
+                this.accountNumber = num.slice(1, num.length)
+                return `account number created successfully ,${this.accountNumber}`
+            } else {
+                return `invalid phone number`
+            }
+
+        }
+
+        get verified() {
+            this.isVerified = true
+        }
+
+
+        deposit(value) {
+            if (!this.accountNumber) {
+                return `create an account number`
+            }
+            else if (!this.isVerified) {
+                return `you have to verify your account`
+            }
+            this.balance += Number(value)
+            return `you have deposited ${value}`
+        }
+
+        withDraw(value) {
+            if (value < 100) {
+                return `balance cannot be less than 100`
+            }
+            if (value > this.balance) {
+                return `insufficient funds`
+            }
+            this.balance -= Number(value)
+            return `you have withdrawn ${value}`
+
+        }
+    }
+
+
+    let daniel = new BankUser('daniel', '3456728920982', '08164934974')
+    console.log(daniel.deposit(5000));
+    daniel.verified
+    console.log(daniel.createAccountNo('08164934974'));
+    console.log(daniel.balance);
+    console.log(daniel.deposit(5000));
+    console.log(daniel.balance);
+    console.log(daniel.withDraw(4999));
+    console.log(daniel.balance);
+    console.log(daniel.withDraw(2));
+    // function signUp(name , phoneNumber) {
+    //     alert('welcome name')
+    //     const newUser = new BankUser(name , phoneNumber , )
+    // }
+
+    class GlorifiedBankUser extends BankUser {
+        //collecting old properties first
+        constructor(name, bvn, phoneNumber, company) {
+            //super is where you are extending from
+            super(name, bvn, phoneNumber)
+            this.company = company
+            this.loan = 0
+
+        }
+
+        borrow(value) {
+            if (value > 50000000) {
+                return `you need to visit the bank for such transaction`
+            } else {
+                this.balance -= Number(value)
+                this.loan += Number(value)
+                return `you have successfully borrowed ${value}`
+
+            }
+        }
+
+        deposit(value) {
+            if (!this.accountNumber) {
+                return `create an account number`
+            }
+            else if (!this.isVerified) {
+                return `you have to verify your account`
+            } else if (this.balance < 0 && this.loan > 0) {
+
+                if (value <= this.loan) {
+                    this.loan -= value
+                    console.log('we are here');
+                    console.log(this.loan, value, this.balance);
+                    let remaining = this.balance + value
+                    this.balance = remaining
+
+
+                } else {
+                    this.loan = 0
+                    let remaining = this.balance + value
+                    this.balance = remaining
+
+                }
+
+                return 'thanks for borrowing'
+
+            } else {
+                this.balance += Number(value)
+                return `you have deposited ${value}`
+            }
+
+
+        }
+
+
+        withDraw(value) {
+            if (this.balance > 0) {
+                if (value > this.balance) {
+                    return `insufficient funds`
+                }
+                this.balance -= Number(value)
+                return `you have withdrawn ${value}`
+
+            } else {
+
+                if (value > this.loan) {
+                    return `insufficient funds`
+                }
+                this.loan -= Number(value)
+                return `you have withdrawn ${value}`
+
+
+            }
+
+        }
+    }
+
+
+    let managerDuro = new GlorifiedBankUser('duro', '23456789890', '08061622762', 'duroshola&co')
+
+    managerDuro.verified
+    console.log(managerDuro.createAccountNo('08061622762'));
+    console.log(managerDuro.balance);
+
+    console.log(managerDuro.borrow(5000000));
+    console.log(managerDuro.withDraw(6000000));
+    console.log(managerDuro.balance);
+    console.log(managerDuro.deposit(6000000));
+    console.log(managerDuro.balance);
+    console.log(managerDuro.loan);
+
+
+
+</script>
