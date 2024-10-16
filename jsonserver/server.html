@@ -188,7 +188,7 @@
             artworkUrl: artworkUrl.value,
             Url: Url.value
         }
-        fetch('http://localhost:3000/songs/$[id]', {
+        fetch('http://localhost:3000/songs/', {
             'method': 'POST',
             'content-type': 'application/json',
             'body': JSON.stringify(myObj)

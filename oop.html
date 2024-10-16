@@ -59,11 +59,12 @@
     arr5.customMap('dan', 'ss1')
 
     class Person {
-
+        #name
+        #job
 
         constructor(name, job, age, genotype) {
-            this.name = name,
-                this.job = job,
+            this.#name = name,
+                this.#job = job,
                 this.age = age,
                 this.genotype = genotype
         }
@@ -75,15 +76,22 @@
 
         //regular function but using the get method
         get shout() {
-            return `yeeeeeee! , ${this.name}`
+            return `yeeeeeee! , ${this.#name}`
         }
 
         //set helps to edit a property in a class
         set newJob(jobTitle) {
-            this.job = jobTitle
+            this.#job = jobTitle
+        }
+        checkJob() {
+            return this.#job
         }
 
 
+    }
+
+    Person.prototype.checkJob = function () {
+        return 'hello'
     }
 
 
@@ -93,11 +101,25 @@
     console.log(me.age);
     console.log(me.job);
     me.newJob = 'cyber security analyst'
-    console.log(me.job);
+    // console.log(me.#job);
     console.log(me.shout);
-    console.log(me.name);
+    // console.log(me.#name);
+    console.log(me.checkJob());
     console.log(me.shout);
 
+    class NewMath {
+        static Sqrt(val) {
+            let num = Number(val)
+            if (isNaN(num)) {
+                return 'value is not a number'
+            }
+            return num ** 0.5
+        }
+
+    }
+
+    console.log(NewMath.Sqrt(4));
+    console.log(NewMath.Sqrt('4'));
 
     //comeback tommorrow - private & pubic , modifying method in a class , static
 
@@ -257,6 +279,13 @@
     console.log(managerDuro.deposit(6000000));
     console.log(managerDuro.balance);
     console.log(managerDuro.loan);
+
+    //accessing the object constructor to change what map does in javascript
+    console.log(Array.prototype.__proto__.map = function (params) {
+        return "ive changed map"
+    }());
+
+    console.log(new Array().map());
 
 
 
