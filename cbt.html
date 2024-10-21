@@ -43,19 +43,19 @@
 
             <p> 
             <label for="option1"> ${questionData[questionIndex].options[0]} </label>
-            <input type="radio" id="option1" name="options">         
+            <input type="radio" value="${questionData[questionIndex].options[0]}" onchange="checkAns(event, ${questionIndex})" id="option1" name="options${questionIndex}">         
             </p>
             <p> 
             <label for="option2"> ${questionData[questionIndex].options[1]}  </label>
-            <input type="radio" id="option2" name="options">         
+            <input type="radio" value="${questionData[questionIndex].options[1]}"  onchange="checkAns(event, ${questionIndex}) " id="option2" name="options${questionIndex}">         
             </p>
             <p> 
             <label for="option3"> ${questionData[questionIndex].options[2]}  </label>
-            <input type="radio" id="option3" name="options">         
+            <input type="radio"  value="${questionData[questionIndex].options[2]}"  onchange="checkAns(event, ${questionIndex}) " id="option3" name="options${questionIndex}">         
             </p>
             <p> 
             <label for="option4"> ${questionData[questionIndex].options[3]}  </label>
-            <input type="radio" id="option4" name="options">         
+            <input type="radio" value="${questionData[questionIndex].options[3]}"  onchange="checkAns(event, ${questionIndex})" id="option4" name="options${questionIndex}">         
             </p>
 
 
@@ -71,10 +71,31 @@
 
 
     function next() {
-        if (questionData.length = )
-        questionIndex++
-        display(`<button onclick="next()"> next </button> `)
-        
+        if (questionIndex === questionData.length - 2) {
+            questionIndex++
+            display(`<button onclick="submit()"> submit </button> `)
+        } else {
+            questionIndex++
+            display(`<button onclick="next()"> next </button> `)
+        }
+
+
+    }
+
+    function prev() {
+        if (questionIndex === 0 ) {
+            questionIndex = 0
+            display(`<button onclick="next()"> next </button> `)
+        } else {
+            questionIndex--
+            display(`<button onclick="next()"> next </button> `)
+        }
+
+
+    }
+
+    function checkAns(ev , index ) {
+      console.log(event , questionData[index].answer ,  index);
     }
 
 
