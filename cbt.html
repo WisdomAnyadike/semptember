@@ -36,6 +36,7 @@
         }
     ]
     let questionIndex = 0
+    let score = []
 
     function display(button) {
         cbtSection.innerHTML = `
@@ -83,19 +84,27 @@
     }
 
     function prev() {
-        if (questionIndex === 0 ) {
+        if (questionIndex === 0) {
             questionIndex = 0
             display(`<button onclick="next()"> next </button> `)
         } else {
             questionIndex--
+            score.pop()
             display(`<button onclick="next()"> next </button> `)
         }
 
 
     }
 
-    function checkAns(ev , index ) {
-      console.log(event , questionData[index].answer ,  index);
+
+    function checkAns(ev, index) {
+        if (ev.target.value === questionData[index].answer) {
+            score.splice(index, 1, 5)
+            console.log(score);
+        } else {
+            score.splice(index, 1, 0)
+            console.log(score);
+        }
     }
 
 
