@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> jumia </title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-auth-compat.js"></script>
+</head>
+
+<body>
+  <div class="main">
+    <input type="checkbox" id="chk" aria-hidden="true">
+
+    <div class="signup">
+      <form>
+        <label for="chk" aria-hidden="true">Sign up</label>
+        <input type="text" id="username" name="txt" placeholder="User name" required="">
+        <input type="email" id="mail" name="email" placeholder="Email" required="">
+        <input type="password" id="password" name="broj" placeholder="Password" required="">
+        <input type="password" name="pswd" id="confirmpassword" placeholder="Confirm Password" required="">
+        <button onclick="signUp()" type="button" id="btn">Sign up</button>
+      </form>
+    </div>
+
+    <div class="login">
+      <form>
+        <label for="chk" aria-hidden="true">Login</label>
+        <input type="email" name="email" id="loginmail" placeholder="Email" required="">
+        <input type="password" name="pswd" id="loginpassword" placeholder="Password" required="">
+        <button id="loginbtn" type="button" onclick="login()">Login</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyCLhyKS8z4X3cv523nc8SN0fWOpBASiF6s",
+    authDomain: "septcohort-6ebd1.firebaseapp.com",
+    projectId: "septcohort-6ebd1",
+    storageBucket: "septcohort-6ebd1.appspot.com",
+    messagingSenderId: "678767372721",
+    appId: "1:678767372721:web:ece8f4982957da13863590"
+  };
+
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+
+
+  function signUp() {
+    btn.innerText = 'loading...'
+
+
+    let email = document.getElementById('mail').value
+    let username = document.getElementById('username').value
+    let password
+
+    function checkPassword() {
+      document.getElementById('password').value.trim() === document.getElementById('confirmpassword').value.trim() ? password = document.getElementById('password').value.trim() : null
+    }
+    checkPassword()
+
+    if (!password) {
+      alert('passwords do not match')
+      btn.innerText = 'Sign Up'
+      return
+    }
+
+    if (password && email.trim() && username.trim()) {
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Signed in 
+          var user = userCredential.user;
+
+          user.updateProfile({
+            displayName:  username ,
+          }).then(() => {
+            alert('sign up success')
+            document.querySelector(`.login`).style.transform !== "translateY(-500px)" ? document.querySelector(`.login`).style.transform = "translateY(-500px)" : document.querySelector(`.login`).style.transform = "translateY(-180px)"
+            btn.innerText = 'Sign Up'
+          }).catch((error) => {
+            alert(error)
+            btn.innerText = 'Sign Up'
+          });
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          btn.innerText = 'Sign Up'
+          alert(errorMessage)
+        });
+    } else {
+      alert('all fields are mandatory')
+      btn.innerText = 'Sign Up'
+    }
+
+
+  }
+
+  function login() {
+    loginbtn.innerText = 'loading...'
+    let email = document.getElementById('loginmail').value.trim()
+    let password = document.getElementById('loginpassword').value.trim()
+    if (!email || !password) {
+      alert('all fields are mandatory')
+      loginbtn.innerText = 'Login'
+    } else {
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // Signed in
+          var user = userCredential.user;
+          alert('login success')
+          loginbtn.innerText = 'Login'
+          window.location.href = 'dashboard.html'
+
+          // ...
+        })
+        .catch((error) => {
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          alert(errorMessage)
+          loginbtn.innerText = 'Login'
+        });
+
+    }
+
+
+  }
+</script>

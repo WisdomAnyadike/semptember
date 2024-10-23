@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "jumia",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
