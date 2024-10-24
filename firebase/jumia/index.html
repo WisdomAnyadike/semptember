@@ -23,6 +23,8 @@
         <input type="password" id="password" name="broj" placeholder="Password" required="">
         <input type="password" name="pswd" id="confirmpassword" placeholder="Confirm Password" required="">
         <button onclick="signUp()" type="button" id="btn">Sign up</button>
+
+        
       </form>
     </div>
 
@@ -31,7 +33,9 @@
         <label for="chk" aria-hidden="true">Login</label>
         <input type="email" name="email" id="loginmail" placeholder="Email" required="">
         <input type="password" name="pswd" id="loginpassword" placeholder="Password" required="">
+        <button onclick="signGoogle()" type="button" id="btnm">Sign in with google</button>
         <button id="loginbtn" type="button" onclick="login()">Login</button>
+        <a style="display: block; margin-left: 100px; " href="forgot.html"> forgot password? </a>
       </form>
     </div>
   </div>
@@ -54,6 +58,7 @@
   // Initialize Firebase
   const app = firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
+  var provider = new firebase.auth.GoogleAuthProvider();
 
 
   function signUp() {
@@ -82,11 +87,17 @@
           var user = userCredential.user;
 
           user.updateProfile({
-            displayName:  username ,
+            displayName: username,
           }).then(() => {
-            alert('sign up success')
-            document.querySelector(`.login`).style.transform !== "translateY(-500px)" ? document.querySelector(`.login`).style.transform = "translateY(-500px)" : document.querySelector(`.login`).style.transform = "translateY(-180px)"
-            btn.innerText = 'Sign Up'
+            firebase.auth().currentUser.sendEmailVerification()
+              .then(() => {
+                alert('sign up success')
+                document.querySelector(`.login`).style.transform !== "translateY(-500px)" ? document.querySelector(`.login`).style.transform = "translateY(-500px)" : document.querySelector(`.login`).style.transform = "translateY(-180px)"
+                btn.innerText = 'Sign Up'
+              }).catch(() => {
+                alert('couldnt send verfication mail at the moment , try again later')
+              })
+
           }).catch((error) => {
             alert(error)
             btn.innerText = 'Sign Up'
@@ -108,19 +119,40 @@
 
   function login() {
     loginbtn.innerText = 'loading...'
+    loginbtn.disabled = true
     let email = document.getElementById('loginmail').value.trim()
     let password = document.getElementById('loginpassword').value.trim()
+
+    function btnReset(){
+      loginbtn.innerText = 'Login'
+      loginbtn.disabled = false
+    }
+
     if (!email || !password) {
       alert('all fields are mandatory')
-      loginbtn.innerText = 'Login'
+      btnReset()
     } else {
       firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
           // Signed in
           var user = userCredential.user;
-          alert('login success')
-          loginbtn.innerText = 'Login'
-          window.location.href = 'dashboard.html'
+          console.log(user);
+          if (user.emailVerified) {
+            alert('login success')
+            btnReset()
+            window.location.href = 'dashboard.html'
+          } else {
+            firebase.auth().currentUser.sendEmailVerification()
+              .then(() => {
+                alert('Verification email has been sent to you , please verify email ')
+                btnReset()
+              }).catch((err) => {
+                alert(err + 'error sending verification mail, try again later')
+                btnReset()
+              })
+
+          }
+
 
           // ...
         })
@@ -128,11 +160,41 @@
           var errorCode = error.code;
           var errorMessage = error.message;
           alert(errorMessage)
-          loginbtn.innerText = 'Login'
+          btnReset()
         });
 
     }
 
 
   }
+
+
+  function signGoogle() {
+  auth.signInWithPopup(provider)
+  .then((result) => {
+    /** @type {firebase.auth.OAuthCredential} */
+    var credential = result.credential;
+
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    var token = credential.accessToken;
+    // The signed-in user info.
+    var user = result.user;
+    alert('sign up success')
+    window.location.href = 'dashboard.html'
+    // IdP data available in result.additionalUserInfo.profile.
+      // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    var errorCode = error.code;
+    var errorMessage = error.message;
+    alert(errorMessage)
+    // The email of the user's account used.
+    var email = error.email;
+    // The firebase.auth.AuthCredential type that was used.
+    var credential = error.credential;
+    // ...
+  });
+  }
+
+
 </script>
