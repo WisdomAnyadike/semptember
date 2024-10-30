@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-auth-compat.js"></script>
+    <!-- go to fundamentals to get storage script -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage-compat.js"></script>
+</head>
+
+<body>
+    <img width="40px" height="40px" style="border-radius: 100%;" id="userPicture" alt="">
+    <input id="input" onchange="upload(event)" type="file">
+    <p id="showProgress"> </p>
+
+
+</body>
+
+</html>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyCLhyKS8z4X3cv523nc8SN0fWOpBASiF6s",
+        authDomain: "septcohort-6ebd1.firebaseapp.com",
+        projectId: "septcohort-6ebd1",
+        //important to use storage
+        storageBucket: "septcohort-6ebd1.appspot.com",
+        messagingSenderId: "678767372721",
+        appId: "1:678767372721:web:ece8f4982957da13863590"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    // go to build , under storage , go to get started and grab storage initialization
+    const storage = firebase.storage();
+    let currentUserEmail
+
+    function checkUser(params) {
+        auth.onAuthStateChanged((user) => {
+            // console.log( firebase.auth().currentUser.displayName);
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/v8/firebase.User
+                var uid = user.uid;
+                console.log(user);
+                currentUserEmail = user.email
+                user.photoURL ? userPicture.src = user.photoURL : userPicture.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQimIXWmgpyuYaqMRDE3BdO183iSVJ_T2JUNg&ss'
+
+                // ...
+            } else {
+                window.location.href = 'index.html'
+                // User is signed out
+                // ...
+            }
+        });
+    }
+
+    checkUser()
+
+    //create upload func
+    function upload(e) {
+        let file = input.files[0]
+        var storageRef = firebase.storage().ref(`${currentUserEmail}`);
+        var uploadTask = storageRef.put(file);
+
+
+        uploadTask.on('state_changed',
+            (snapshot) => {
+
+
+                let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                showProgress.innerText = `Upload is ${progress.toFixed()} % done`
+
+            },
+            (error) => {
+                showProgress.innerText = ``
+                alert('error while posting , try again')
+                // Handle unsuccessful uploads
+            },
+            () => {
+                setTimeout(() => {
+                    showProgress.innerText = `upload success`
+                }, 1000);
+                setTimeout(() => {
+                    showProgress.innerText = ``
+                }, 3000)
+                // Handle successful uploads on complete
+                // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                    console.log('File available at', downloadURL);
+                    const user = firebase.auth().currentUser;
+
+                    user.updateProfile({
+                        photoURL: downloadURL
+                    }).then(() => {
+                        checkUser()
+                        // Update successful
+                        // ...
+                    }).catch((error) => {
+                        alert('couldnt upload picture at the moment , try again later')
+                        // An error occurred
+                        // ...
+                    });
+                });
+            }
+        );
+    }
+
+</script>

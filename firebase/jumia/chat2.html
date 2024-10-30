@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- realtime database -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-database-compat.js"></script>
+</head>
+
+<body>
+    <input type="text" id="MSSGinput"> <button onclick="sendMssg()"> send</button>
+    <div id="messenger">
+
+
+
+
+
+
+
+
+
+    </div>
+
+</body>
+
+</html>
+<script>
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCLhyKS8z4X3cv523nc8SN0fWOpBASiF6s",
+        authDomain: "septcohort-6ebd1.firebaseapp.com",
+        projectId: "septcohort-6ebd1",
+        databaseURL: 'https://septcohort-6ebd1-default-rtdb.firebaseio.com',
+        storageBucket: "septcohort-6ebd1.appspot.com",
+        messagingSenderId: "678767372721",
+        appId: "1:678767372721:web:ece8f4982957da13863590"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    // Initialize Realtime Database and get a reference to the service
+    const database = firebase.database();
+    let index
+    let myUser
+
+
+    // function to send a message
+    function sendMssg(params) {
+        if (MSSGinput.value.trim()) {
+            database.ref(`chats/${index}`).set({
+                sender: myUser.displayName,
+                message: MSSGinput.value.trim(),
+                time: new Date().toLocaleString().slice(12, 17) + ' ' + new Date().toLocaleString().slice(21, 23),
+                pic: myUser.photoURL ? myUser.photoURL : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQimIXWmgpyuYaqMRDE3BdO183iSVJ_T2JUNg&ss'
+            }).then(() => {
+
+            }).catch((err) => {
+                alert(err)
+            })
+
+        } else {
+            alert('input a message')
+        }
+
+
+
+
+    }
+
+
+    function checkUser(params) {
+        auth.onAuthStateChanged((user) => {
+            // console.log( firebase.auth().currentUser.displayName);
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/v8/firebase.User
+                var uid = user.uid;
+                console.log(user);
+                myUser = user
+
+
+                // ...
+            } else {
+                window.location.href = 'index.html'
+                // User is signed out
+                // ...
+            }
+        });
+    }
+
+    checkUser()
+
+
+    function displayAll(params) {
+        var starCountRef = database.ref('chats')
+        starCountRef.on('value', (snapshot) => {
+            const data = snapshot.val() || []
+            index = data.length
+            console.log(data);
+            messenger.innerHTML = ''
+            data.forEach((chatObj) => {
+                let deleteButton = chatObj.sender === myUser.displayName ? `<button onclick="deleteMssg()"> delete </button>` : ''
+                messenger.innerHTML += `
+
+                     <p> <img src=${chatObj.pic} width="30px" height="30px" style="border-radius:50% ;"> ${chatObj.sender}: ${chatObj.message} </p>
+                     <p> ${chatObj.time} ${deleteButton}</p>`
+            });
+
+
+        });
+    }
+
+    displayAll()
+
+</script>

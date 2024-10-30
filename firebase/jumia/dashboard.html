@@ -8,12 +8,29 @@
     <link rel="stylesheet" href="dash.css">
     <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
 </head>
 
 <body>
 
 
-    <button onclick="logOut()"> Log out </button>
+    <button onclick="logOut()"> Log out </button> <button onclick="moveToProfile()"> profile </button>
+    <button onclick="routeToChat2()"> chat 2</button>
+    <br>
+    <br>
+
+    <input type="text" id="MSSGinput"> <button onclick="sendMssg()"> send</button>
+    <div id="messenger">
+
+
+
+
+
+
+
+
+
+    </div>
 
 </body>
 
@@ -32,13 +49,17 @@
     // Initialize Firebase
     const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const db = firebase.firestore();
+    let currentUser
 
     function checkUser(params) {
         auth.onAuthStateChanged((user) => {
+            // console.log( firebase.auth().currentUser.displayName);
             if (user) {
                 // User is signed in, see docs for a list of available properties
                 // https://firebase.google.com/docs/reference/js/v8/firebase.User
                 var uid = user.uid;
+                currentUser = user.displayName
                 document.body.prepend(`welcome ${user.displayName}`)
 
                 // ...
@@ -55,12 +76,99 @@
 
     function logOut() {
         firebase.auth().signOut().then(() => {
-           alert('logout successful')
-           window.location.href = 'index.html'
+            alert('logout successful')
+            window.location.href = 'index.html'
         }).catch((error) => {
             alert(error)
         });
     }
 
+
+    function sendMssg() {
+        if (MSSGinput.value.trim()) {
+            // Add a new document in collection "Chats"
+            db.collection("Chats").doc().set({
+                sender: currentUser,
+                message: MSSGinput.value.trim(),
+                time: new Date().toLocaleTimeString()
+            })
+                .then(() => {
+                    alert("message sent successfully");
+                    displayAllMssgs()
+                })
+                .catch((error) => {
+                    alert("error sending message: ", error);
+                });
+        } else {
+            alert('please send a mssg')
+        }
+
+    }
+
+
+    function displayAllMssgs() {
+        db.collection("Chats").get()
+            .then((querySnapshot) => {
+                console.log(querySnapshot);
+                messenger.innerHTML = ''
+
+                let ourmssgs = []
+
+                querySnapshot.forEach((doc) => {
+                    // let dataObj = doc.data()
+                    ourmssgs.push({ ...doc.data(), id: doc.id })
+                })
+
+                ourmssgs.sort((a, b) => {
+                    if (a.time > b.time) {
+                        return -1
+                    } else if (a.time < b.time) {
+                        return 1
+                    } else {
+                        return 0
+                    }
+                })
+
+                console.log(ourmssgs);
+
+                ourmssgs.forEach((doc) => {
+                    let deleteButton = doc.sender === currentUser ? `<button onclick="deleteMssg('${doc.id}')"> delete </button>` : ''
+                    messenger.innerHTML += `
+                     <p> ${doc.sender}: ${doc.message} </p>
+                     <p> ${doc.time} ${deleteButton}</p>`
+                })
+
+            })
+            .catch((error) => {
+                console.log("Error getting documents: ", error);
+            });
+
+
+    }
+
+
+    displayAllMssgs()
+
+    function deleteMssg(i) {
+        let confirmer = confirm('are you sure?')
+        if (confirmer) {
+            db.collection("Chats").doc(i).delete().then(() => {
+                alert("chat successfully deleted!");
+                displayAllMssgs()
+            }).catch((error) => {
+                alert("error removing chat: ", error);
+            });
+        }
+
+    }
+
+    //Moving to profile page
+    function moveToProfile() {
+        window.location.href = 'profile.html'
+    }
+    //Moving to real time chat page
+    function routeToChat2() {
+        window.location.href = 'chat2.html'
+    }
 
 </script>
